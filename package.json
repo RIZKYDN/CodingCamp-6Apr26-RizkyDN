@@ -1,3 +1,10 @@
-"scripts": {
-  "build": "ng build"
+{
+  "name": "angular-app",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "ng build"
+  },
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {}
 }
