@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Life Dashboard — Your personal productivity hub with clock, focus timer, to-do list, and quick links." />
+  <meta name="theme-color" content="#0d0f1a" />
+  <title>Life Dashboard — Stay Focused, Stay Productive</title>
+
+  <!-- Google Fonts preloaded for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- ── Animated background canvas handled by CSS orbs ───────── -->
+
+  <div class="dashboard" role="main">
+
+    <!-- ── Top Bar ──────────────────────────────────────────────── -->
+    <div class="topbar" role="banner">
+      <span class="logo-text">⚡ Life Dashboard</span>
+      <div class="topbar-actions">
+        <button id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle theme (Light / Dark)">
+          <span class="toggle-knob" aria-hidden="true">🌙</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Hero / Greeting ──────────────────────────────────────── -->
+    <section class="card hero-card" aria-label="Clock and greeting">
+      <div id="clock" class="clock-display" aria-live="polite" aria-label="Current time">00:00:00</div>
+      <div id="date" class="date-display" aria-label="Current date"></div>
+      <h1 class="greeting-text" aria-live="polite">
+        <span id="greeting">Good Morning!</span>
+        <button id="nameEditBtn" class="name-edit-btn" aria-label="Set your name" title="Set your name">
+          ✏️ <span>edit name</span>
+        </button>
+      </h1>
+    </section>
+
+    <!-- ── Timer + To-Do Row ────────────────────────────────────── -->
+    <div class="grid-row">
+
+      <!-- Focus Timer -->
+      <section class="card timer-card" aria-labelledby="timerHeading">
+        <div class="section-header">
+          <h2 class="section-title" id="timerHeading">
+            <span class="icon" aria-hidden="true">⏱</span>
+            Focus Timer
+          </h2>
+        </div>
+
+        <!-- Duration selector — Challenge ③ -->
+        <div class="timer-duration-row">
+          <label for="durationSelect">Duration:</label>
+          <select id="durationSelect" class="duration-select" aria-label="Select timer duration">
+            <option value="5">5 min</option>
+            <option value="10">10 min</option>
+            <option value="15">15 min</option>
+            <option value="20">20 min</option>
+            <option value="25" selected>25 min (Pomodoro)</option>
+            <option value="30">30 min</option>
+            <option value="45">45 min</option>
+            <option value="60">60 min</option>
+          </select>
+        </div>
+
+        <!-- Ring SVG -->
+        <div class="timer-ring-wrap" role="img" aria-label="Timer progress ring">
+          <svg class="timer-svg" viewBox="0 0 180 180">
+            <defs>
+              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7c6fff" />
+                <stop offset="100%" stop-color="#ff6b9d" />
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="90" cy="90" r="79" />
+            <circle class="ring-fill" id="timerRingFill" cx="90" cy="90" r="79" />
+          </svg>
+          <div class="timer-display" aria-live="polite">
+            <span class="timer-minutes" id="timerDisplay">25:00</span>
+            <span class="timer-label">focus</span>
+          </div>
+        </div>
+
+        <!-- Done badge -->
+        <div id="timerDoneBadge" class="timer-done-badge" role="status">
+          🎉 Session Complete!
+        </div>
+
+        <!-- Controls -->
+        <div class="timer-controls" role="group" aria-label="Timer controls">
+          <button id="btnStart" class="btn-timer btn-start" aria-label="Start timer">Start</button>
+          <button id="btnStop" class="btn-timer btn-stop" aria-label="Pause timer">Pause</button>
+          <button id="btnReset" class="btn-timer btn-reset" aria-label="Reset timer">Reset</button>
+        </div>
+      </section>
+
+      <!-- To-Do List -->
+      <section class="card todo-card" aria-labelledby="todoHeading">
+        <div class="section-header">
+          <h2 class="section-title" id="todoHeading">
+            <span class="icon" aria-hidden="true">✅</span>
+            Tasks
+          </h2>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="sortSelect" class="sort-select" aria-label="Sort tasks">
+              <option value="default">Sort: Default</option>
+              <option value="az">A → Z</option>
+              <option value="za">Z → A</option>
+              <option value="done">Done last</option>
+              <option value="undone">Done first</option>
+            </select>
+            <span id="taskCount" class="todo-count" aria-live="polite">No tasks</span>
+          </div>
+        </div>
+
+        <!-- Error message -->
+        <div id="todoError" class="todo-error-msg" role="alert" aria-live="assertive"></div>
+
+        <!-- Add task input -->
+        <div class="todo-input-row">
+          <input id="todoInput" type="text" class="todo-input" placeholder="Add a new task…" maxlength="200"
+            autocomplete="off" aria-label="New task name" />
+          <button id="btnAddTodo" class="btn-add" aria-label="Add task">
+            + Add
+          </button>
+        </div>
+
+        <!-- Task list -->
+        <ul id="taskList" class="task-list" aria-label="Task list" aria-live="polite"></ul>
+      </section>
+
+    </div><!-- /grid-row -->
+
+    <!-- ── Quick Links ───────────────────────────────────────────── -->
+    <section class="card links-card" aria-labelledby="linksHeading">
+      <div class="section-header">
+        <h2 class="section-title" id="linksHeading">
+          <span class="icon" aria-hidden="true">🔗</span>
+          Quick Links
+        </h2>
+      </div>
+
+      <div class="link-input-row">
+        <input id="linkName" type="text" class="link-input name-input" placeholder="Name (e.g. Google)" maxlength="40"
+          autocomplete="off" aria-label="Link name" />
+        <input id="linkUrl" type="url" class="link-input url-input" placeholder="URL (e.g. https://google.com)"
+          maxlength="500" autocomplete="off" aria-label="Link URL" />
+        <button id="btnAddLink" class="btn-add-link" aria-label="Add quick link">
+          + Add Link
+        </button>
+      </div>
+
+      <div id="linksGrid" class="links-grid" aria-label="Saved quick links" role="list"></div>
+    </section>
+
+    <!-- ── Footer ───────────────────────────────────────────────── -->
+    <footer class="footer">
+      <span>⚡ Life Dashboard &mdash; Built with HTML, CSS &amp; Vanilla JS &bull; All data saved locally</span>
+      <br />
+      <span style="opacity:0.5;font-size:0.68rem;">
+        Tip: Press <kbd>Alt+T</kbd> to focus tasks &bull; <kbd>Alt+Space</kbd> to start/pause timer
+      </span>
+    </footer>
+
+  </div><!-- /dashboard -->
+
+  <!-- Toast notification container -->
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>
