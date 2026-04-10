@@ -13,12 +13,7 @@ Open `index.html` directly in your browser — no server or install required.
 ## 📸 Screenshots
 
 > *Dark Mode (default)*
-
-![Dark Mode Dashboard](./screenshots/dark-mode.png)
-
 > *Light Mode*
-
-![Light Mode Dashboard](./screenshots/light-mode.png)
 
 ---
 
