@@ -1,10 +1,11 @@
 {
-  "name": "angular-app",
+  "name": "app",
   "version": "1.0.0",
   "scripts": {
-    "build": "ng build"
+    "build": "npx ng build"
   },
   "private": true,
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@angular/cli": "^17.0.0"
+  }
 }
